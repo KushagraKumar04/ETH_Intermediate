@@ -1,11 +1,24 @@
-// contracts/GLDToken.sol
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.0;
 
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract GLDToken is ERC20 {
-    constructor(uint256 initialSupply) ERC20("GLDToken", "GLD"){
+contract project3 is ERC20, Ownable {
+    constructor (uint256 initialSupply) ERC20("KushToken", "KK") Ownable(msg.sender) {
         _mint(msg.sender, initialSupply);
+    }
+    
+    function burn(uint256 amount) public{
+         _burn(msg.sender, amount);
+    }
+    
+    function mint(address to, uint256 amount) public onlyOwner {
+        _mint(to, amount);
+    }
+    
+    function transferTokens (address recipient, uint256 amount) public returns (bool) {
+        _transfer(msg.sender, recipient, amount);
+        return true;
     }
 }
